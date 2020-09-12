@@ -1,0 +1,121 @@
+---
+title: "Preprocessing Bank Marketing Data"
+author: Crupanshu Udani
+date: 09/05/20
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo=TRUE,warning = FALSE)
+```
+
+## Importing libraries
+```{r Importing Library}
+library(dplyr)
+print("All Libraries loaded")
+```
+## Reading the dataset
+```{r Importing Dataset}
+dataset <- read.csv('../data/bank-additional-full.csv',header = TRUE,sep = ';',na.strings = c("","NA","unknown"))
+summary(dataset)
+```
+# 1. Preprocessing data
+## 1.1 Cleaning Data
+As a part of this step we'll be removing all the rows that contain NA values ( i.e. unknown in original dataset).
+```{r}
+data <- na.omit(dataset)
+dim(data)
+```
+## 1.2 Exploring Data
+As a part of this step we would be exploring each data field and checking the values.
+
+#### Age:
+```{r Age}
+data$age<-as.integer(data$age)
+hist(data$age)
+boxplot(data$age,horizontal = T,xlab = "Age",main="Box plot of Age distributution")
+#abline(v=37.00,col="lightgrey")
+#text(37, 10, "37.00", col = "darkgrey")
+```
+
+Summary: Age data is mostly skewed towards lower,middle age groups thus older age group could cause issue in the model.
+
+#### Job
+```{r Job}
+job <- table(data$y,data$job)
+barplot(job,names.arg = names(job),legend.text = rownames(job),xlab = "Job",ylab = "Count")
+```
+
+#### Marital
+```{r Marital}
+marital <- table(data$y,data$marital)
+barplot(marital,legend.text = rownames(marital))
+```
+
+#### Education
+```{r Education}
+education <- table(data$y,data$education)
+barplot(education, legend.text = rownames(education))
+```
+
+As per graph and data clearly for education *illiterate* has very low no of row of data (only **`r data %>% filter(education == "illiterate") %>% count()`)**. **TODO:: Need to handle that Field**
+
+#### Default
+```{r Default Field}
+table(data$default)
+```
+
+Clearly for attribute *default* has only `r filter(data,default=="yes") %>% count()` rows with yes field. So the field would not be useful. Therefore the field is dropped.
+```{r}
+data$default <- NULL
+```
+
+#### Housing
+```{r housing}
+housing <- table(data$y,data$housing)
+barplot(housing,legend.text = rownames(housing))
+```
+
+#### Loan
+```{r loan}
+loan <- table(data$y,data$loan)
+barplot(loan,xlab = "Loan",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
+```
+
+#### Contact
+```{r Contact}
+contact <- table(data$y,data$contact)
+barplot(contact,xlab = "Contact",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
+```
+
+#### TODO: Other Attibutes
+
+#### pdays
+```{r pDays}
+data$pdays<-as.integer(data$pdays)
+pdaysCount <- table(data$pdays)
+barplot(table(data$pdays),xlab = "pdays",ylab = "Frequency")
+data %>% select(pdays) %>% filter(pdays == 999) %>% count()
+```
+
+## Removing attributes and improper data :TODO
+
+## Changing the categorical data to numerics ::TODO
+
+## Check Similarity matrix ::TODO
+
+## Do Dimensionality Reduction ::TODO
+
+## Sampling Dataset
+```{r}
+set.seed(110) # Team 11
+dataSampleindex <- sample(1:nrow(data),10000)
+sampled_data <- data[dataSampleindex, ]
+dim(sampled_data)
+```
+
+```{r CleanWS, include = FALSE}
+### Clean Env and Packages data
+#rm(list= ls())
+```
+
