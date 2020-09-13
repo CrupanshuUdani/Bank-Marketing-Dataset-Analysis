@@ -37,3 +37,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Escaping generated html by Rmd notebook
+/code/*.html
