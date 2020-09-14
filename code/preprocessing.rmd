@@ -33,7 +33,7 @@ As a part of this step we would be exploring each data field and checking the va
 #### Age:
 ```{r Age}
 data$age<-as.integer(data$age)
-hist(data$age)
+barplot(table(data$age))
 boxplot(data$age,horizontal = T,xlab = "Age",main="Box plot of Age distributution")
 #abline(v=37.00,col="lightgrey")
 #text(37, 10, "37.00", col = "darkgrey")
@@ -42,21 +42,21 @@ boxplot(data$age,horizontal = T,xlab = "Age",main="Box plot of Age distribututio
 Summary: Age data is mostly skewed towards lower,middle age groups thus older age group could cause issue in the model.
 
 #### Job
-```{r Job}
+```{r Job, fig.width = 15}
 job <- table(data$y,data$job)
-barplot(job,names.arg = names(job),legend.text = rownames(job),xlab = "Job",ylab = "Count")
+barplot(job,names.arg = names(job),legend.text = c("no in  y","yes in y"),xlab = "Job",ylab = "Count")
 ```
 
 #### Marital
 ```{r Marital}
 marital <- table(data$y,data$marital)
-barplot(marital,legend.text = rownames(marital))
+barplot(marital,legend.text = c("no in  y","yes in y"))
 ```
 
 #### Education
-```{r Education}
+```{r Education, fig.width = 15}
 education <- table(data$y,data$education)
-barplot(education, legend.text = rownames(education))
+barplot(education, legend.text = c("no in  y","yes in y"))
 ```
 
 As per graph and data clearly for education *illiterate* has very low no of row of data (only **`r data %>% filter(education == "illiterate") %>% count()`)**. **TODO:: Need to handle that Field**
@@ -71,7 +71,7 @@ Clearly for attribute *default* has only `r filter(data,default=="yes") %>% coun
 #### Housing
 ```{r housing}
 housing <- table(data$y,data$housing)
-barplot(housing,legend.text = rownames(housing))
+barplot(housing,legend.text = c("no in  y","yes in y"),xlab = "Housing",ylab = "Frequency")
 ```
 
 #### Loan
@@ -91,6 +91,7 @@ barplot(contact,xlab = "Contact",ylab = "Frequency",legend.text = c("no in  y","
 month <- table(data$y,data$month)
 barplot(month,xlab = "Month",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
 ```
+
 #### Day of Week
 ```{r Day of Week}
 day_of_week <- table(data$y,data$day_of_week)
@@ -116,7 +117,7 @@ barplot(campaign,xlab = "Campaign",ylab = "Frequency",legend.text = c("no in  y"
 The above plot clearly shows there is more data for campaign with less contact and very less data with more contacts done.
 
 #### pdays
-```{r pDays}
+```{r pDays,fig.width = 12}
 data$pdays<-as.integer(data$pdays)
 pdaysCount <- table(data$pdays)
 barplot(table(data$pdays),xlab = "pdays",ylab = "Frequency")
@@ -138,7 +139,7 @@ plot(poutcome,main = "Mosaic plot of poutcome and y values",xlab = "y",ylab = "p
 ```
 
 #### Social and Economical Context
-```{r Social & Economical attribute}
+```{r Social & Economical attribute, fig.width = 12}
 ## emp.var.rate
 emp.var.rate <- table(data$y,data$emp.var.rate)
 barplot(emp.var.rate,xlab = "emp.var.rate",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
@@ -152,9 +153,9 @@ cons.conf.idx <- table(data$y,data$cons.conf.idx)
 barplot(cons.conf.idx,xlab = "cons.conf.idx",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
 boxplot(data$emp.var.rate,horizontal = T,main ="Box plot of cons.conf.idx")
 ## euribor3m
-euribor3m <- table(data$y,data$euribor3m)
-barplot(euribor3m,xlab = "euribor3m",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
-boxplot(data$euribor3m,horizontal = T,main ="Box plot of cons.price.idx")
+euribor3m <- table(data$euribor3m)
+barplot(euribor3m,xlab = "euribor3m",ylab = "Frequency")
+boxplot(data$euribor3m,horizontal = T,main ="Box plot of euribor3m")
 ## nr.employed
 nr.employed <- table(data$y,data$nr.employed)
 barplot(nr.employed,xlab = "nr.employed",ylab = "Frequency",legend.text = c("no in  y","yes in y"))
@@ -176,7 +177,7 @@ data$poutcome<-as.factor(data$poutcome)
 data$y<-as.logical(data$y=="yes")
 ```
 
-## Check Similarity matrix ::TODO
+## Checking Similarity of attributes using variance and correlation
 ```{r}
 X <- subset(data,select = age:nr.employed) %>% data.matrix()
 Y <- data$y
@@ -186,6 +187,25 @@ print(var_X)
 print(cor_X)
 print(findCorrelation(cor_X,cutoff=0.9,names = T))
 ```
+Based on similarity matrix we observe that field **emp.var.rate** and **euribor3m** are highly correlated and seemed redundant.
+
+
+## Dimensionality Reduction using PCA (Principle Component Analysis)
+```{r Dimensionality Reduction 1}
+pca_data<-prcomp(X,center = TRUE,scale. = TRUE)
+data_pc<-pca_data$x
+pca_rotation<-pca_data$rotation
+summary(pca_data)
+plot(pca_data)
+```
+```{r,,fig.width = 12, fig.height = 12}
+biplot(pca_data)
+sort(abs(pca_rotation[,1]))
+```
+
+Based on the summary of pca components, we observe that at about 6 components determines 50% of result and about 15 components describes 95% of result (based on Cumulative Proportion).
+Further more as per the biplot we can clearly observe that our previous observation that field *emp.var.rate* and *euribor3m* are highly correlated.
+Based on PC1 values of PCA analysis *loan* and *default* are the least contributing attributes.
 
 ## Removing attributes and improper data ( Will be done later )
 ```{r}
@@ -193,11 +213,6 @@ print(findCorrelation(cor_X,cutoff=0.9,names = T))
 #data$default<-NULL
 ```
 
-## Do Dimensionality Reduction ::TODO
-```{r}
-pca_data<-prcomp(X,center = TRUE,scale. = TRUE)
-print(pca_data)
-```
 
 ## Sampling Dataset
 ```{r}
