@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo=TRUE,warning = FALSE)
 
 ## Importing libraries
 ```{r Importing Library}
-library(dplyr)
-library(caret)
+library(dplyr)# Used for easier data manipulation
+library(caret)# Used for finding correlated attributes
 print("All Libraries loaded")
 ```
 ## Reading the dataset
@@ -162,7 +162,7 @@ barplot(nr.employed,xlab = "nr.employed",ylab = "Frequency",legend.text = c("no 
 boxplot(data$nr.employed,horizontal = T,main ="Box plot of nr.employed")
 ```
 
-## Changing the categorical/logical data to factors
+## 1.3 Changing the categorical/logical data to factors
 ```{r}
 data$job<-as.factor(data$job)
 data$marital<-as.factor(data$marital)
@@ -177,7 +177,7 @@ data$poutcome<-as.factor(data$poutcome)
 data$y<-as.logical(data$y=="yes")
 ```
 
-## Checking Similarity of attributes using variance and correlation
+## 1.4 Checking Similarity of attributes using variance and correlation
 ```{r}
 X <- subset(data,select = age:nr.employed) %>% data.matrix()
 Y <- data$y
@@ -190,7 +190,7 @@ print(findCorrelation(cor_X,cutoff=0.9,names = T))
 Based on similarity matrix we observe that field **emp.var.rate** and **euribor3m** are highly correlated and seemed redundant.
 
 
-## Dimensionality Reduction using PCA (Principle Component Analysis)
+## 1.5 Dimensionality Reduction using PCA (Principle Component Analysis)
 ```{r Dimensionality Reduction 1}
 pca_data<-prcomp(X,center = TRUE,scale. = TRUE)
 data_pc<-pca_data$x
@@ -207,14 +207,14 @@ Based on the summary of pca components, we observe that at about 6 components de
 Further more as per the biplot we can clearly observe that our previous observation that field *emp.var.rate* and *euribor3m* are highly correlated.
 Based on PC1 values of PCA analysis *loan* and *default* are the least contributing attributes.
 
-## Removing attributes and improper data ( Will be done later )
+## 1.6 Removing attributes and improper data ( Will be done later )
 ```{r}
 #data$pdays<-NULL
 #data$default<-NULL
 ```
 
 
-## Sampling Dataset
+## 1.7 Sampling Dataset
 ```{r}
 set.seed(110) # Team 11
 dataSampleindex <- sample(1:nrow(data),10000)
