@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo=TRUE,warning = FALSE)
 ## Importing libraries
 ```{r Importing Library}
 library(dplyr)
+library(caret)
 print("All Libraries loaded")
 ```
 ## Reading the dataset
@@ -179,16 +180,17 @@ data$y<-as.logical(data$y=="yes")
 ```{r}
 X <- subset(data,select = age:nr.employed) %>% data.matrix()
 Y <- data$y
-cov_X <- cov(X)
-cor_X <- cov2cor(cov_X)
-#print(cov_X)
+var_X <- var(X)
+cor_X <- cor(X,method = "pearson")
+print(var_X)
 print(cor_X)
+print(findCorrelation(cor_X,cutoff=0.9,names = T))
 ```
 
-## Removing attributes and improper data
+## Removing attributes and improper data ( Will be done later )
 ```{r}
-data$pdays<-NULL
-data$default<-NULL
+#data$pdays<-NULL
+#data$default<-NULL
 ```
 
 ## Do Dimensionality Reduction ::TODO
