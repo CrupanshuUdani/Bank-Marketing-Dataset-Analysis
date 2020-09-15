@@ -1,6 +1,6 @@
 ---
 title: "Preprocessing Bank Marketing Data"
-author: Crupanshu Udani
+author: Crupanshu Ashishbhai Udani, Karan Jeeten Thakkar
 date: 09/05/20
 output: html_document
 ---
@@ -59,7 +59,7 @@ education <- table(data$y,data$education)
 barplot(education, legend.text = c("no in  y","yes in y"))
 ```
 
-As per graph and data clearly for education *illiterate* has very low no of row of data (only **`r data %>% filter(education == "illiterate") %>% count()`)**. **TODO:: Need to handle that Field**
+As per graph and data clearly for education *illiterate* has very low no of row of data (only **`r data %>% filter(education == "illiterate") %>% count()`**).
 
 #### Default
 ```{r Default Field}
