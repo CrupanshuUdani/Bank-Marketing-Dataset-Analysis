@@ -229,6 +229,7 @@ sampled_data$y <- as.factor(sampled_data$y)
 # 2. Classification
 ## 2.1 Splitting into training and test sets
 ### 2.1.1 Full sampled set benchmark 70:30
+#### Naive Bayesian
 ```{r All columns - 70:30}
 indxTrain70 <- createDataPartition(y = sampled_data$y,p = 0.70,list = FALSE)
 training_all_col70 <- sampled_data[indxTrain70,]
@@ -239,6 +240,15 @@ model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_all_col70)
 confusionMatrix(Predict, testing_all_col70$y,positive = "TRUE",mode = "prec_recall")
 attributeImp <- varImp(model)
+plot(attributeImp)
+```
+
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_all_col70,method = "class")
+y_pred <- predict(fit,testing_all_col70,type = "class")
+confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
+attrImp <- varImp(fit)
 plot(attributeImp)
 ```
 
@@ -343,6 +353,7 @@ testing_without_dur_4dropped_col80 <- sample_data_without_dur_4_dropped_80[-indx
 
 ## 2.2 Training models and making predictions for all splits
 ### 2.2.1 Classify - Keep duration - drop pdays & loan & default - 70:30
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default - 70:30}
 x <- training_with_dur_3dropped_col70[, -17]
 y <- training_with_dur_3dropped_col70$y
@@ -351,101 +362,196 @@ Predict <- predict(model, newdata = testing_with_dur_3dropped_col70)
 confusionMatrix(Predict, testing_with_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col70,method = "class")
+y_pred <- predict(fit,testing_with_dur_3dropped_col70,type = "class")
+confusionMatrix(y_pred,testing_with_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.2 Classify - Drop duration - drop pdays & loan & default - 70:30
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default - 70:30}
 x <- training_without_dur_3dropped_col70[, -16]
 y <- training_without_dur_3dropped_col70$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col70)
 confusionMatrix(Predict, testing_without_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col70[-16],method = "class")
+y_pred <- predict(fit,testing_without_dur_3dropped_col70,type = "class")
+confusionMatrix(y_pred,testing_without_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.3 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 70:30
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 70:30}
 x <- training_with_dur_4dropped_col70[, -16]
 y <- training_with_dur_4dropped_col70$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col70)
 confusionMatrix(Predict, testing_with_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col70,method = "class")
+y_pred <- predict(fit,testing_with_dur_4dropped_col70,type = "class")
+confusionMatrix(y_pred,testing_with_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.4 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 70:30
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 70:30}
 x <- training_without_dur_4dropped_col70[, -15]
 y <- training_without_dur_4dropped_col70$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col70)
 confusionMatrix(Predict, testing_without_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col70,method = "class")
+y_pred <- predict(fit,testing_without_dur_4dropped_col70,type = "class")
+confusionMatrix(y_pred,testing_without_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.5 Classify - Keep duration - drop pdays & loan & default - 50:50
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default - 50:50}
 x <- training_with_dur_3dropped_col50[, -17]
 y <- training_with_dur_3dropped_col50$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col50)
 confusionMatrix(Predict, testing_with_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col50,method = "class")
+y_pred <- predict(fit,testing_with_dur_3dropped_col50,type = "class")
+confusionMatrix(y_pred,testing_with_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.6 Classify - Drop duration - drop pdays & loan & default - 50:50
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default - 50:50}
 x <- training_without_dur_3dropped_col50[, -16]
 y <- training_without_dur_3dropped_col50$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col50)
 confusionMatrix(Predict, testing_without_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col50,method = "class")
+y_pred <- predict(fit,testing_without_dur_3dropped_col50,type = "class")
+confusionMatrix(y_pred,testing_without_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.7 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 50:50
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 50:50}
 x <- training_with_dur_4dropped_col50[, -16]
 y <- training_with_dur_4dropped_col50$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col50)
 confusionMatrix(Predict, testing_with_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col50,method = "class")
+y_pred <- predict(fit,testing_with_dur_4dropped_col50,type = "class")
+confusionMatrix(y_pred,testing_with_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.8 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 50:50
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 50:50}
 x <- training_without_dur_4dropped_col50[, -15]
 y <- training_without_dur_4dropped_col50$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col50)
 confusionMatrix(Predict, testing_without_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col50,method = "class")
+y_pred <- predict(fit,testing_without_dur_4dropped_col50,type = "class")
+confusionMatrix(y_pred,testing_without_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.9 Classify - Keep duration - drop pdays & loan & default - 80:20
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default - 80:20}
 x <- training_with_dur_3dropped_col80[, -17]
 y <- training_with_dur_3dropped_col80$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col80)
 confusionMatrix(Predict, testing_with_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col80,method = "class")
+y_pred <- predict(fit,testing_with_dur_3dropped_col80,type = "class")
+confusionMatrix(y_pred,testing_with_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.10 Classify - Drop duration - drop pdays & loan & default - 80:20
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default - 80:20}
 x <- training_without_dur_3dropped_col80[, -16]
 y <- training_without_dur_3dropped_col80$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col80)
 confusionMatrix(Predict, testing_without_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col80,method = "class")
+y_pred <- predict(fit,testing_without_dur_3dropped_col80,type = "class")
+confusionMatrix(y_pred,testing_without_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.11 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 80:20
+#### Naive Bayesian
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 80:20}
 x <- training_with_dur_4dropped_col80[, -16]
 y <- training_with_dur_4dropped_col80$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col80)
 confusionMatrix(Predict, testing_with_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
 ```
 
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col80,method = "class")
+y_pred <- predict(fit,testing_with_dur_4dropped_col80,type = "class")
+confusionMatrix(y_pred,testing_with_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
+```
+
 ### 2.2.12 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 80:20
+#### Naive Bayesian
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 80:20}
 x <- training_without_dur_4dropped_col80[, -15]
 y <- training_without_dur_4dropped_col80$y
-model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col80)
 confusionMatrix(Predict, testing_without_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+```
+
+#### Decision Tree
+```{r}
+fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col80,method = "class")
+y_pred <- predict(fit,testing_without_dur_4dropped_col80,type = "class")
+confusionMatrix(y_pred,testing_without_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
 ```
