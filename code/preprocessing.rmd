@@ -3,8 +3,8 @@ title: "Preprocessing Bank Marketing Data"
 author: "Crupanshu Ashishbhai Udani, Karan Jeeten Thakkar"
 date: "09/05/20"
 output:
-  html_document: default
   word_document: default
+  html_document: default
   pdf_document: default
 ---
 
@@ -344,108 +344,132 @@ testing_without_dur_4dropped_col80 <- sample_data_without_dur_4_dropped_80[-indx
 ## 2.2 Training models and making predictions for all splits
 ### 2.2.1 Classify - Keep duration - drop pdays & loan & default - 70:30
 ```{r Classify - Keep duration - drop pdays & loan & default - 70:30}
-x <- training_with_dur_3dropped_col70[, -17]
+x <- training_with_dur_3dropped_col70[, -18]
 y <- training_with_dur_3dropped_col70$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col70)
-confusionMatrix(Predict, testing_with_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.2 Classify - Drop duration - drop pdays & loan & default - 70:30
 ```{r Classify - Drop duration - drop pdays & loan & default - 70:30}
-x <- training_without_dur_3dropped_col70[, -16]
+x <- training_without_dur_3dropped_col70[, -17]
 y <- training_without_dur_3dropped_col70$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col70)
-confusionMatrix(Predict, testing_without_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.3 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 70:30
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 70:30}
-x <- training_with_dur_4dropped_col70[, -16]
+x <- training_with_dur_4dropped_col70[, -17]
 y <- training_with_dur_4dropped_col70$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col70)
-confusionMatrix(Predict, testing_with_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.4 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 70:30
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 70:30}
-x <- training_without_dur_4dropped_col70[, -15]
+x <- training_without_dur_4dropped_col70[, -16]
 y <- training_without_dur_4dropped_col70$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col70)
-confusionMatrix(Predict, testing_without_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.5 Classify - Keep duration - drop pdays & loan & default - 50:50
 ```{r Classify - Keep duration - drop pdays & loan & default - 50:50}
-x <- training_with_dur_3dropped_col50[, -17]
+x <- training_with_dur_3dropped_col50[, -18]
 y <- training_with_dur_3dropped_col50$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col50)
-confusionMatrix(Predict, testing_with_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.6 Classify - Drop duration - drop pdays & loan & default - 50:50
 ```{r Classify - Drop duration - drop pdays & loan & default - 50:50}
-x <- training_without_dur_3dropped_col50[, -16]
+x <- training_without_dur_3dropped_col50[, -17]
 y <- training_without_dur_3dropped_col50$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col50)
-confusionMatrix(Predict, testing_without_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.7 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 50:50
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 50:50}
-x <- training_with_dur_4dropped_col50[, -16]
+x <- training_with_dur_4dropped_col50[, -17]
 y <- training_with_dur_4dropped_col50$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col50)
-confusionMatrix(Predict, testing_with_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.8 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 50:50
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 50:50}
-x <- training_without_dur_4dropped_col50[, -15]
+x <- training_without_dur_4dropped_col50[, -16]
 y <- training_without_dur_4dropped_col50$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col50)
-confusionMatrix(Predict, testing_without_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.9 Classify - Keep duration - drop pdays & loan & default - 80:20
 ```{r Classify - Keep duration - drop pdays & loan & default - 80:20}
-x <- training_with_dur_3dropped_col80[, -17]
+x <- training_with_dur_3dropped_col80[, -18]
 y <- training_with_dur_3dropped_col80$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col80)
-confusionMatrix(Predict, testing_with_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.10 Classify - Drop duration - drop pdays & loan & default - 80:20
 ```{r Classify - Drop duration - drop pdays & loan & default - 80:20}
-x <- training_without_dur_3dropped_col80[, -16]
+x <- training_without_dur_3dropped_col80[, -17]
 y <- training_without_dur_3dropped_col80$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col80)
-confusionMatrix(Predict, testing_without_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.11 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 80:20
 ```{r Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 80:20}
-x <- training_with_dur_4dropped_col80[, -16]
+x <- training_with_dur_4dropped_col80[, -17]
 y <- training_with_dur_4dropped_col80$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col80)
-confusionMatrix(Predict, testing_with_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
 
 ### 2.2.12 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 80:20
 ```{r Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 80:20}
-x <- training_without_dur_4dropped_col80[, -15]
+x <- training_without_dur_4dropped_col80[, -16]
 y <- training_without_dur_4dropped_col80$y
 model = train(x,y,'nb',trControl=trainControl(method='cv',number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col80)
-confusionMatrix(Predict, testing_without_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
+confMatrix$byClass
+confMatrix$table
 ```
