@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo=TRUE,warning = FALSE,message=FALSE)
 library(dplyr)# Used for easier data manipulation
 library(caret)# Used for finding correlated attributes
 library(rpart)# Used for decision tree
+library(rpart.plot)# Used for ploting decision tree
 print("All Libraries loaded")
 ```
 ## Reading the dataset
@@ -244,8 +245,25 @@ plot(attributeImp)
 ```
 
 #### Decision Tree
-```{r}
+##### With GINI Index
+```{r, fig.height = 10}
 fit <- rpart(formula = y ~ .,data = training_all_col70,method = "class")
+rpart.plot(fit)
+y_pred <- predict(fit,testing_all_col70,type = "class")
+confMatrix <- confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
+attrImp <- varImp(fit)
+plot(attributeImp)
+```
+
+##### With Information Gain
+```{r, fig.height = 10}
+fit <- rpart(formula = y ~ .,data = training_all_col70,method = "class",parms = list(split="information"))
+rpart.plot(fit)
 y_pred <- predict(fit,testing_all_col70,type = "class")
 confMatrix <- confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
 confMatrix$overall['Accuracy']
