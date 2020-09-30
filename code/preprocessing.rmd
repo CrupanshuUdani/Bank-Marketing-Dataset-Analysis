@@ -457,8 +457,8 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col70,method = "class")
 y_pred <- predict(fit,testing_without_dur_4dropped_col70,type = "class")
-confusionMatrix(y_pred,testing_without_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
-confMatrix <- confMatrix$overall['Accuracy']
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
 confMatrix$byClass['Precision']
 confMatrix$byClass['Recall']
 confMatrix$byClass['F1']
