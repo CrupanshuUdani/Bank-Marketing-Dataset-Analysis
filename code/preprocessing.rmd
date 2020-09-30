@@ -229,8 +229,8 @@ sampled_data$y <- as.factor(sampled_data$y)
 
 # 2. Classification
 ## 2.1 Splitting into training and test sets
-### 2.1.1 Full sampled set benchmark 70:30
-#### Naive Bayesian
+### 2.1.1 Full sampled set benchmark 80:20 ,50:50
+#### Naive Bayesian 80:20
 ```{r All columns - 80:20}
 indxTrain80 <- createDataPartition(y = sampled_data$y,p = 0.80,list = FALSE)
 training_all_col80 <- sampled_data[indxTrain80,]
@@ -244,6 +244,7 @@ attributeImp <- varImp(model)
 plot(attributeImp)
 ```
 
+#### Naive Bayesian 50:50
 ```{r All columns - 50:50}
 indxTrain50 <- createDataPartition(y = sampled_data$y,p = 0.50,list = FALSE)
 training_all_col50 <- sampled_data[indxTrain50,]
@@ -258,8 +259,8 @@ plot(attributeImp)
 ```
 
 #### Decision Tree
-##### With GINI Index
-```{r, fig.height = 10}
+##### With GINI Index 80:20
+```{r}
 fit <- rpart(formula = y ~ .,data = training_all_col80,method = "class")
 rpart.plot(fit)
 y_pred <- predict(fit,testing_all_col80,type = "class")
@@ -273,8 +274,38 @@ attrImp <- varImp(fit)
 plot(attributeImp)
 ```
 
-##### With Information Gain
-```{r, fig.height = 10}
+##### With GINI Index 50:50
+```{r}
+fit <- rpart(formula = y ~ .,data = training_all_col50,method = "class")
+rpart.plot(fit)
+y_pred <- predict(fit,testing_all_col50,type = "class")
+confMatrix <- confusionMatrix(y_pred,testing_all_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
+attrImp <- varImp(fit)
+plot(attributeImp)
+```
+
+##### With Information Gain 80:20
+```{r}
+fit <- rpart(formula = y ~ .,data = training_all_col80,method = "class",parms = list(split="information"))
+rpart.plot(fit)
+y_pred <- predict(fit,testing_all_col80,type = "class")
+confMatrix <- confusionMatrix(y_pred,testing_all_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
+attrImp <- varImp(fit)
+plot(attributeImp)
+```
+
+##### With Information Gain 50:50
+```{r}
 fit <- rpart(formula = y ~ .,data = training_all_col80,method = "class",parms = list(split="information"))
 rpart.plot(fit)
 y_pred <- predict(fit,testing_all_col80,type = "class")
@@ -290,6 +321,7 @@ plot(attributeImp)
 
 ### 2.1.2 Keep duration - drop pdays & loan & default - 70:30
 ```{r Keep duration - drop pdays & loan & default - 70:30}
+indxTrain70 <- createDataPartition(y = sampled_data$y,p = 0.70,list = FALSE)
 sample_data_with_dur_3_dropped_70 <- sampled_data
 sample_data_with_dur_3_dropped_70[, c('pdays', 'loan', 'default')] <- list(NULL)
 training_with_dur_3dropped_col70 <- sample_data_with_dur_3_dropped_70[indxTrain70,]
