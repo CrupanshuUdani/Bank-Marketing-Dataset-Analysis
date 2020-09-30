@@ -247,7 +247,12 @@ plot(attributeImp)
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_all_col70,method = "class")
 y_pred <- predict(fit,testing_all_col70,type = "class")
-confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 attrImp <- varImp(fit)
 plot(attributeImp)
 ```
@@ -360,7 +365,10 @@ y <- training_with_dur_3dropped_col70$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col70)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -368,7 +376,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col70,method = "class")
 y_pred <- predict(fit,testing_with_dur_3dropped_col70,type = "class")
-confusionMatrix(y_pred,testing_with_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.2 Classify - Drop duration - drop pdays & loan & default - 70:30
@@ -379,7 +392,10 @@ y <- training_without_dur_3dropped_col70$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col70)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col70$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -387,7 +403,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col70[-16],method = "class")
 y_pred <- predict(fit,testing_without_dur_3dropped_col70,type = "class")
-confusionMatrix(y_pred,testing_without_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_3dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.3 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 70:30
@@ -398,7 +419,10 @@ y <- training_with_dur_4dropped_col70$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col70)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -406,7 +430,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col70,method = "class")
 y_pred <- predict(fit,testing_with_dur_4dropped_col70,type = "class")
-confusionMatrix(y_pred,testing_with_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.4 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 70:30
@@ -417,7 +446,10 @@ y <- training_without_dur_4dropped_col70$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col70)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col70$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -426,6 +458,11 @@ confMatrix$table
 fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col70,method = "class")
 y_pred <- predict(fit,testing_without_dur_4dropped_col70,type = "class")
 confusionMatrix(y_pred,testing_without_dur_4dropped_col70$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.5 Classify - Keep duration - drop pdays & loan & default - 50:50
@@ -436,7 +473,10 @@ y <- training_with_dur_3dropped_col50$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col50)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -444,7 +484,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col50,method = "class")
 y_pred <- predict(fit,testing_with_dur_3dropped_col50,type = "class")
-confusionMatrix(y_pred,testing_with_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.6 Classify - Drop duration - drop pdays & loan & default - 50:50
@@ -455,7 +500,10 @@ y <- training_without_dur_3dropped_col50$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col50)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col50$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -463,7 +511,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col50,method = "class")
 y_pred <- predict(fit,testing_without_dur_3dropped_col50,type = "class")
-confusionMatrix(y_pred,testing_without_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_3dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.7 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 50:50
@@ -474,7 +527,10 @@ y <- training_with_dur_4dropped_col50$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col50)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -482,7 +538,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col50,method = "class")
 y_pred <- predict(fit,testing_with_dur_4dropped_col50,type = "class")
-confusionMatrix(y_pred,testing_with_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.8 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 50:50
@@ -493,7 +554,10 @@ y <- training_without_dur_4dropped_col50$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col50)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col50$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -501,7 +565,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col50,method = "class")
 y_pred <- predict(fit,testing_without_dur_4dropped_col50,type = "class")
-confusionMatrix(y_pred,testing_without_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_4dropped_col50$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.9 Classify - Keep duration - drop pdays & loan & default - 80:20
@@ -512,7 +581,10 @@ y <- training_with_dur_3dropped_col80$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_3dropped_col80)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -520,7 +592,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_3dropped_col80,method = "class")
 y_pred <- predict(fit,testing_with_dur_3dropped_col80,type = "class")
-confusionMatrix(y_pred,testing_with_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.10 Classify - Drop duration - drop pdays & loan & default - 80:20
@@ -531,7 +608,10 @@ y <- training_without_dur_3dropped_col80$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_3dropped_col80)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_3dropped_col80$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -539,7 +619,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_3dropped_col80,method = "class")
 y_pred <- predict(fit,testing_without_dur_3dropped_col80,type = "class")
-confusionMatrix(y_pred,testing_without_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_3dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.11 Classify - Keep duration - drop pdays & loan & default & emp.var.rate - 80:20
@@ -550,7 +635,10 @@ y <- training_with_dur_4dropped_col80$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_with_dur_4dropped_col80)
 confMatrix <- confusionMatrix(Predict, testing_with_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
 ```
 
@@ -558,7 +646,12 @@ confMatrix$table
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_with_dur_4dropped_col80,method = "class")
 y_pred <- predict(fit,testing_with_dur_4dropped_col80,type = "class")
-confusionMatrix(y_pred,testing_with_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_with_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
 
 ### 2.2.12 Classify - Drop duration - drop pdays & loan & default & emp.var.rate - 80:20
@@ -569,12 +662,21 @@ y <- training_without_dur_4dropped_col80$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
 Predict <- predict(model, newdata = testing_without_dur_4dropped_col80)
 confMatrix <- confusionMatrix(Predict, testing_without_dur_4dropped_col80$y,positive = "TRUE",mode = "prec_recall")
-confMatrix$byClass
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
 confMatrix$table
+```
 
 #### Decision Tree
 ```{r}
 fit <- rpart(formula = y ~ .,data = training_without_dur_4dropped_col80,method = "class")
 y_pred <- predict(fit,testing_without_dur_4dropped_col80,type = "class")
-confusionMatrix(y_pred,testing_without_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix <- confusionMatrix(y_pred,testing_without_dur_4dropped_col80$y,positive = "TRUE",mode="prec_recall")
+confMatrix$overall['Accuracy']
+confMatrix$byClass['Precision']
+confMatrix$byClass['Recall']
+confMatrix$byClass['F1']
+confMatrix$table
 ```
