@@ -230,15 +230,28 @@ sampled_data$y <- as.factor(sampled_data$y)
 ## 2.1 Splitting into training and test sets
 ### 2.1.1 Full sampled set benchmark 70:30
 #### Naive Bayesian
-```{r All columns - 70:30}
-indxTrain70 <- createDataPartition(y = sampled_data$y,p = 0.70,list = FALSE)
-training_all_col70 <- sampled_data[indxTrain70,]
-testing_all_col70 <- sampled_data[-indxTrain70,]
-x <- training_all_col70[, -21]
-y <- training_all_col70$y
+```{r All columns - 80:20}
+indxTrain80 <- createDataPartition(y = sampled_data$y,p = 0.80,list = FALSE)
+training_all_col80 <- sampled_data[indxTrain80,]
+testing_all_col80 <- sampled_data[-indxTrain80,]
+x <- training_all_col80[, -21]
+y <- training_all_col80$y
 model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
-Predict <- predict(model, newdata = testing_all_col70)
-confusionMatrix(Predict, testing_all_col70$y,positive = "TRUE",mode = "prec_recall")
+Predict <- predict(model, newdata = testing_all_col80)
+confusionMatrix(Predict, testing_all_col80$y,positive = "TRUE",mode = "prec_recall")
+attributeImp <- varImp(model)
+plot(attributeImp)
+```
+
+```{r All columns - 50:50}
+indxTrain50 <- createDataPartition(y = sampled_data$y,p = 0.50,list = FALSE)
+training_all_col50 <- sampled_data[indxTrain50,]
+testing_all_col50 <- sampled_data[-indxTrain50,]
+x <- training_all_col50[, -21]
+y <- training_all_col50$y
+model <- train(x, y, 'nb', trControl=trainControl(method='cv', number=10))
+Predict <- predict(model, newdata = testing_all_col50)
+confusionMatrix(Predict, testing_all_col50$y,positive = "TRUE",mode = "prec_recall")
 attributeImp <- varImp(model)
 plot(attributeImp)
 ```
