@@ -258,9 +258,9 @@ plot(attributeImp)
 
 #### Decision Tree
 ```{r}
-fit <- rpart(formula = y ~ .,data = training_all_col70,method = "class")
-y_pred <- predict(fit,testing_all_col70,type = "class")
-confMatrix <- confusionMatrix(y_pred,testing_all_col70$y,positive = "TRUE",mode="prec_recall")
+fit <- rpart(formula = y ~ .,data = training_all_col80,method = "class")
+y_pred <- predict(fit,testing_all_col80,type = "class")
+confMatrix <- confusionMatrix(y_pred,testing_all_col80$y,positive = "TRUE",mode="prec_recall")
 confMatrix$overall['Accuracy']
 confMatrix$byClass['Precision']
 confMatrix$byClass['Recall']
