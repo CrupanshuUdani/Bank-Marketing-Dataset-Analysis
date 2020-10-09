@@ -40,3 +40,5 @@ vignettes/*.pdf
 
 # Escaping generated html by Rmd notebook
 /code/*.html
+/code/*.docx
+/code/*.pdf
