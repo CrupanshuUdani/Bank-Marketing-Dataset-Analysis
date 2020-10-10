@@ -42,3 +42,6 @@ vignettes/*.pdf
 /code/*.html
 /code/*.docx
 /code/*.pdf
+
+#Pycharm files
+.idea
